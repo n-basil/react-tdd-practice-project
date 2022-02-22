@@ -36,5 +36,30 @@ describe("Home page", () => {
           })
     })
 
+    it("displays a list of all the recipes that have been added to the recipe list", () => {
+        const recipeName1 = 'Tofu Scramble Tacos';
+        cy.findByRole('button').click() //Add Recipe Button
+        cy.findByRole('textbox', {name: /Recipe name/i}).type(recipeName1)
+        cy.findByRole('textbox', {name: /instructions/i}).type("1. heat a skillet on medium with a dollop of coconut oil {enter} 2. warm flour tortillas")
+
+        const recipeName2 = 'Pan Fried Chicken';
+        cy.findByRole('button').click() //Submit button 
+        cy.findByRole('textbox', {name: /Recipe name/i}).type(recipeName2)
+        cy.findByRole('textbox', {name: /instructions/i}).type("1. heat a skillet on medium with a dollop of coconut oil {enter} 2. warm flour tortillas")
+        cy.findByRole('button').click() //submit button again
+
+        // return cy.findByRole('button').click()
+        //     .then(() => {
+        //         expect(cy.findByRole('listitem', /tofu scramble tacos/i)).toExist();
+        //         expect(cy.findByRole('listitem', /pan fried chicken/i)).toExist();
+        //     })
+        
+        return cy.get('.recipeItemList').then(items => {
+            //console.log(items)
+            expect(items).to.contain.text('Tofu Scramble Tacos')
+            expect(items).to.contain.text('Pan Fried Chicken')
+        })
+    })
+
 
   })

@@ -15,13 +15,14 @@ class App extends React.Component {
 
   submitRecipe = (event) => {
     event.preventDefault()
-    this.setState({recipes: [
+    this.setState({recipes: [...this.state.recipes,
         {
           name: this.state.newRecipeName,
           instructions :this.state.newRecipeInstructions
         }
       ]
     })
+    this.setState({newRecipeName: "", newRecipeInstructions: ""})
   }
 
   handleRecipeNameChange = (event) => {
@@ -61,6 +62,8 @@ class App extends React.Component {
       </form>
     )
 
+    const listItems = this.state.recipes.map(i => <li>{i.name}</li>)
+
     return (
       <div className="App">
         <h1 className="App-header">My Recipes</h1>
@@ -71,8 +74,8 @@ class App extends React.Component {
         }
         {
           this.state.recipes.length > 0 ?
-          <ul>
-            <li></li>
+          <ul className="recipeItemList">
+            {listItems}
           </ul> :
           <p>There are no recipes to list.</p>
         }
